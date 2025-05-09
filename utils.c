@@ -1,23 +1,24 @@
 // utility funcitons like sorting, listing files/ directories
 #include "my_ls.h"
 
-void bubble_sort(t_entry *entries, int count, int sort_time){
+void bubble_sort(t_entry *entries, int count, int sort_time) {
     int i, j;
     for (i = 0; i < count - 1; i++) {
         for (j = 0; j < count - 1 - i; j++) {
             int cmp = 0;
             if (sort_time) {
-                if (entries[j].mtim.tv_sec < entries[j+1].mtim.tv_sec)
+                if (entries[j].mtim.tv_sec < entries[j+1].mtim.tv_sec ||
+                   (entries[j].mtim.tv_sec == entries[j+1].mtim.tv_sec &&
+                    entries[j].mtim.tv_nsec < entries[j+1].mtim.tv_nsec)) {
                     cmp = 1;
-                else if (entries[j].mtim.tv_sec == entries[j+1].mtim.tv_sec &&
-                         entries[j].mtim.tv_nsec < entries[j+1].mtim.tv_nsec)
+                }
+            } else {
+                if (strcmp(entries[j].name, entries[j+1].name) > 0) {
                     cmp = 1;
+                }
             }
-            if (!sort_time || (!cmp && strcmp(entries[j].name, entries[j+1].name) > 0)) {
-                t_entry tmp = entries[j];
-                entries[j] = entries[j+1];
-                entries[j+1] = tmp;
-            } else if (cmp) {
+
+            if (cmp) {
                 t_entry tmp = entries[j];
                 entries[j] = entries[j+1];
                 entries[j+1] = tmp;
@@ -25,6 +26,7 @@ void bubble_sort(t_entry *entries, int count, int sort_time){
         }
     }
 }
+
 
 void sort_entries(t_entry *entries, int count, int sort_time){
     bubble_sort(entries, count, sort_time);
@@ -98,7 +100,12 @@ void list_files(char **paths, int count, int show_all, int sort_time){
     for (int i = 0; i < fcount; i++) printf("%s\n", files[i].name);
 
     for (int i = 0; i < dcount; i++) {
-        if (fcount + dcount > 1) printf("\n%s:\n", dirs[i].name);
+        if (fcount + dcount > 1) {
+            if (i != 0 || fcount > 0) {
+                printf("\n");
+            }
+            printf("%s:\n", dirs[i].name);
+        }
         list_dir(dirs[i].name, show_all, sort_time);
     }
 

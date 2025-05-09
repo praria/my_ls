@@ -15,7 +15,7 @@
 
 typedef struct s_entry {
     char *name;
-    struct timespec mtim; // Note: timespec mtim may not be supported in some MacOS versions
+    struct timespec mtim;
     int is_dir;
 } t_entry;
 

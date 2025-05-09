@@ -26,6 +26,13 @@ int main(int argc, char **argv) {
 
     if (file_count == 0) {
         list_dir(".", show_all, sort_time);
+    } else if (file_count == 1){
+        struct stat st;
+        if (lstat(files[0], &st) == 0 && S_ISDIR(st.st_mode)) {
+            list_dir(files[0], show_all, sort_time);
+        } else {
+            list_files(files, file_count, show_all, sort_time);
+        }
     } else {
         list_files(files, file_count, show_all, sort_time);
     }
