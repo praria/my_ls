@@ -1,14 +1,12 @@
 # my_ls
 
-A simplified reimplementation of the Unix `ls` utility in C, supporting a subset of options.  
-This project demonstrates understanding of directory reading, file metadata, and sorting — all within strict system call and function constraints.
-
+A simplified reimplementation of the Unix `ls` utility in C.
 
 ## Features
 
 - Lists files and directories in one-column format
 - Supports the following flags:
-  - `-a`: Show hidden files (those starting with `.`)
+  - `-a`: Show hidden files
   - `-t`: Sort entries by modification time (newest first)
   - Combined: `-at` or `-ta`
 - Implements custom sorting (bubble sort)
@@ -23,11 +21,13 @@ This project demonstrates understanding of directory reading, file metadata, and
 
 ## Usage 
 
+```
 ./my_ls [options] [file...]
 ./my_ls
 ./my_ls -a
 ./my_ls -t
 ./my_ls -ta dir1 dir2
+```
 
 
 ## Testing
@@ -42,7 +42,7 @@ touch dir1/fileA dir2/fileB dir1/.hidden_inside
 cd ..
 ```
 
-## Then run:
+### Then run:
 
 ```
 ./my_ls test_env > my_ls.output
